@@ -1,0 +1,32 @@
+package goob
+
+import (
+	"fmt"
+)
+
+templ RoomTemplate(room *Room) {
+	<html>
+		<head>
+			<title>Goob</title>
+			<link href="public/index.css" rel="stylesheet"/>
+			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+		</head>
+		<body class="p-5">
+			<div class="flex flex-col">
+				<h1>Room: { fmt.Sprint(room.Id) } </h1>
+				<div hx-ext="ws" ws-connect={ fmt.Sprintf("/chat/%d", room.Id) }>
+					<div id="chat-room">
+						for _, msg := range room.Messages {
+							@MessageComponent(msg)
+						}
+					</div>
+					<form class="border-2 border-black p-5" ws-send>
+						<input class="border-2 border-black" name="message"/>
+						<input class="border-2 border-red-300 hover:border-red-500" value="submit" type="submit"/>
+					</form>
+				</div>
+			</div>
+		</body>
+	</html>
+}
