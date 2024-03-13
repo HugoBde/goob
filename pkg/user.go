@@ -76,7 +76,7 @@ func (user *User) Runner() {
 				log.Println(err)
 				return
 			}
-			msg := NewMessage(wsMessage.Message)
+			msg := NewMessage(user, wsMessage.Message)
 			user.roomSendChannel <- msg
 		case data, ok := <-user.RoomRecvChannel:
 			if !ok {

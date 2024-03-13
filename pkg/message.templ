@@ -1,11 +1,27 @@
 package goob
 
-import (
-	"fmt"
-)
+import ()
 
-templ MessageComponent(msg Message) {
+templ MessageComponent(msg Message, isOwnMessage bool) {
 	<div hx-swap-oob="beforeend:#chat-room">
-		<li>{ fmt.Sprint(msg.Time) } => { msg.Content }</li>
+		if isOwnMessage {
+			<li class="flex justify-between bg-emerald-500">
+				<div>
+					{ msg.Time.Format("15:04 02/01") }
+				</div>
+				<div>
+					{ msg.Content }
+				</div>
+			</li>
+		} else {
+			<li class="flex justify-between bg-slate-200">
+				<div>
+					{ msg.Content }
+				</div>
+				<div>
+					{ msg.Time.Format("15:04 02/01") }
+				</div>
+			</li>
+		}
 	</div>
 }

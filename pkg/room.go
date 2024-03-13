@@ -57,15 +57,28 @@ func (room *Room) Run() {
 
 		room.Messages = append(room.Messages, msg)
 
-		buf := bytes.Buffer{}
-		err := MessageComponent(msg).Render(context.Background(), &buf)
+		regularMessageBuffer := bytes.Buffer{}
+		err := MessageComponent(msg, false).Render(context.Background(), &regularMessageBuffer)
+
 		if err != nil {
-			log.Printf("Room %d | Shat my pants when trying to render %s", room.Id, msg.Content)
+			log.Printf("Room %d | Shat my pants when trying to render regular message %s", room.Id, msg.Content)
+			continue
+		}
+
+		ownMessageBuffer := bytes.Buffer{}
+		err = MessageComponent(msg, true).Render(context.Background(), &ownMessageBuffer)
+
+		if err != nil {
+			log.Printf("Room %d | Shat my pants when trying to render own message: %s", room.Id, msg.Content)
 			continue
 		}
 
 		for _, user := range room.Users {
-			user.RoomRecvChannel <- buf.Bytes()
+			if user == msg.User {
+				user.RoomRecvChannel <- ownMessageBuffer.Bytes()
+			} else {
+				user.RoomRecvChannel <- regularMessageBuffer.Bytes()
+			}
 		}
 	}
 }
