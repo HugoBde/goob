@@ -1,11 +1,10 @@
 package goob
 
 import (
+	"bytes"
 	"context"
 	"log"
-
-	// "math/rand"
-	"bytes"
+	"math/rand"
 	"net/http"
 
 	"nhooyr.io/websocket"
@@ -31,8 +30,11 @@ func GetRoom(id uint64) *Room {
 }
 
 func NewRoom() *Room {
-	// id := rand.Uint64() % 100
-	id := uint64(1)
+	id := rand.Uint64() % 1_000_000
+
+	for GetRoom(id) != nil {
+		id = rand.Uint64() % 1_000_000
+	}
 
 	newRoom := &Room{
 		Id:          id,
