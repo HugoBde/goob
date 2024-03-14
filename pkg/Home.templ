@@ -1,0 +1,27 @@
+package goob
+
+templ HomeTemplate() {
+	<html class="h-full">
+		<head>
+			<title>Goob</title>
+			<link href="public/index.css" rel="stylesheet"/>
+		</head>
+		<body class="h-full flex flex-col ">
+			@TopBarComponent()
+			<div class="flex justify-around items-center flex-grow">
+				<a href="/newroom" class="border-2 flex justify-center items-center rounded-md max-h-[33%] h-[300px] w-[300px] border-black shadow-lg hover:bg-black hover:text-white text-3xl hover:shadow-xl hover:scale-105 transition-all ">
+					<button>
+						Create new room
+					</button>
+				</a>
+				<form action="/room" class="border-2 flex flex-col p-5 gap-3 justify-around items-center rounded-md max-h-[33%] h-[300px] w-[300px] border-black shadow-lg  ">
+					<p class="flex-grow flex items-center text-3xl">
+						Join room
+					</p>
+					<input required type="text" name="id" class="border-2 rounded-sm w-5/6 h-6 border-gray-400 text-center"/>
+					<input type="submit" value="Go" class="border-2 hover:bg-black hover:text-white flex-grow rounded-md border-black w-5/6 shadow-lg hover:shadow-xl hover:scale-105 transition-all "/>
+				</form>
+			</div>
+		</body>
+	</html>
+}

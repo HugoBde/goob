@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"strings"
 
 	"nhooyr.io/websocket"
 )
@@ -76,8 +77,14 @@ func (user *User) Runner() {
 				log.Println(err)
 				return
 			}
-			msg := NewMessage(user, wsMessage.Message)
-			user.roomSendChannel <- msg
+
+			trimmedMessage := strings.TrimSpace(wsMessage.Message)
+
+			if len(trimmedMessage) != 0 {
+				msg := NewMessage(user, trimmedMessage)
+				user.roomSendChannel <- msg
+			}
+
 		case data, ok := <-user.RoomRecvChannel:
 			if !ok {
 				return
