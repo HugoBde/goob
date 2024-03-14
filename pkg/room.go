@@ -30,8 +30,7 @@ func GetRoom(id uint64) *Room {
 }
 
 func NewRoom() *Room {
-	// id := rand.Uint64() % 1_000_000
-	id := uint64(1)
+	id := rand.Uint64() % 1_000_000
 
 	for GetRoom(id) != nil {
 		id = rand.Uint64() % 1_000_000
@@ -43,13 +42,6 @@ func NewRoom() *Room {
 		Users:       make([]*User, 0, 10),
 		RecvChannel: make(chan Message),
 	}
-
-	newRoom.Messages = append(newRoom.Messages,
-		NewMessage(nil, "Hey!"),
-		NewMessage(nil, "How are you?"),
-		NewMessage(nil, "I'm Good! Yourself?"),
-		NewMessage(nil, "Yeah pretty good cunt!"),
-	)
 
 	roomList[id] = newRoom
 

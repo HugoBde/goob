@@ -26,9 +26,6 @@ func main() {
 
 	http.HandleFunc("/chat/{roomId}", chatHandler)
 
-	room := goob.NewRoom()
-	fmt.Printf("room created %v\n", room)
-
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	log.Fatal(http.ListenAndServe(":8080", nil))
