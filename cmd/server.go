@@ -51,6 +51,11 @@ func roomHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(room.Users) >= 10 {
+		http.Error(w, "Room full", http.StatusForbidden)
+		return
+	}
+
 	goob.RoomTemplate(room).Render(r.Context(), w)
 }
 
@@ -77,6 +82,11 @@ func chatHandler(w http.ResponseWriter, r *http.Request) {
 	room := goob.GetRoom(roomId)
 	if room == nil {
 		log.Printf("Invalid room ID in /chat somehow %s", roomIdStr)
+		return
+	}
+
+	if len(room.Users) >= 10 {
+		http.Error(w, "Room full", http.StatusForbidden)
 		return
 	}
 

@@ -19,6 +19,63 @@ type Room struct {
 
 var roomList = make(map[uint64]*Room)
 
+var adjectiveList = [...]string{
+	"Astute",
+	"Brazen",
+	"Charming",
+	"Devious",
+	"Elderly",
+	"Functional",
+	"Glorious",
+	"Hilarious",
+	"Indifferent",
+	"Jacked",
+	"Knowledgeable",
+	"Lazy",
+	"Manic",
+	"Narcisstic",
+	"Obnoxious",
+	"Polite",
+	"Quirky",
+	"Rambunctious",
+	"Savant",
+	"Tropical",
+	"Useless",
+	"Valliant",
+	"Woke",
+	"Xenophobic",
+	"Young",
+	"Zealous",
+}
+
+var animalList = [...]string{
+	"Antelope",
+	"Beetle",
+	"Camel",
+	"Dolphin",
+	"Elephant",
+	"Frog",
+	"Giraffe",
+	"Hippo",
+	"Iguana",
+	"Jellyfish",
+	"Koala",
+	"Lobster",
+	"Meerkat",
+	"Narwal",
+	"Orangutan",
+	"Pinguin",
+	"Quetzal",
+	"Rhino",
+	"Shark",
+	"Turtle",
+	"Unicorn",
+	"Viper",
+	"Whale",
+	"Yak",
+	"Zebra",
+}
+
 func GetRoom(id uint64) *Room {
 	room, ok := roomList[id]
 
@@ -86,18 +143,16 @@ func (room *Room) Run() {
 }
 
 func (room *Room) AcceptConn(w http.ResponseWriter, r *http.Request) {
-	log.Printf("Room %d | New User [%s]", room.Id, r.Host)
-
 	conn, err := websocket.Accept(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	user := NewUser(r.Context(), room, conn)
+	user := NewUser(r.Context(), room.generateUniqueName(), room, conn)
 
 	room.Users = append(room.Users, user)
-	log.Printf("Room %d | User count: %d ", room.Id, len(room.Users))
+	log.Printf("Room %d | New user: [%v] User count: %d ", room.Id, user, len(room.Users))
 
 	user.Runner()
 
@@ -106,13 +161,43 @@ func (room *Room) AcceptConn(w http.ResponseWriter, r *http.Request) {
 
 func (room *Room) RemoveUser(user *User) {
 
-	log.Printf("Room %d | Removing User", room.Id)
-
 	for i, u := range room.Users {
 		if u == user {
 			room.Users[i] = room.Users[len(room.Users)-1]
 			room.Users = room.Users[:len(room.Users)-1]
 		}
 	}
-	log.Printf("Room %d | User count: %d ", room.Id, len(room.Users))
+
+	log.Printf("Room %d | Disconnected user: [%v] User count: %d ", room.Id, user, len(room.Users))
+}
+
+func (room *Room) generateUniqueName() UserName {
+	var i int
+	for {
+		i = rand.Int() % len(adjectiveList)
+		alreadyExists := false
+		for _, user := range room.Users {
+			if user.Name[0][0] == adjectiveList[i][0] {
+				alreadyExists = true
+			}
+		}
+		if !alreadyExists {
+			break
+		}
+	}
+
+	var j int
+	for {
+		j = rand.Int() % len(animalList)
+		alreadyExists := false
+		for _, user := range room.Users {
+			if user.Name[1][0] == animalList[j][0] {
+				alreadyExists = true
+			}
+		}
+		if !alreadyExists {
+			break
+		}
+	}
+	return UserName{adjectiveList[i], animalList[j]}
 }

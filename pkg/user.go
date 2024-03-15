@@ -3,17 +3,21 @@ package goob
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"strings"
 
 	"nhooyr.io/websocket"
 )
 
+type UserName [2]string
+
 type WSMessage struct {
 	Message string `json:"message"`
 }
 
 type User struct {
+	Name            UserName
 	ctx             context.Context
 	conn            *websocket.Conn
 	wsSendChannel   chan []byte
@@ -22,8 +26,9 @@ type User struct {
 	roomSendChannel chan Message
 }
 
-func NewUser(ctx context.Context, room *Room, conn *websocket.Conn) *User {
+func NewUser(ctx context.Context, name UserName, room *Room, conn *websocket.Conn) *User {
 	return &User{
+		Name:            name,
 		ctx:             ctx,
 		conn:            conn,
 		wsSendChannel:   make(chan []byte),
@@ -92,4 +97,8 @@ func (user *User) Runner() {
 			user.wsSendChannel <- data
 		}
 	}
+}
+
+func (user *User) String() string {
+	return fmt.Sprintf("%s %s", user.Name[0], user.Name[1])
 }
