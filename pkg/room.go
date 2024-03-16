@@ -117,8 +117,6 @@ func (room *Room) Run() {
 	for {
 		msg := <-room.RecvChannel
 
-		log.Printf("Room %d | #%d | \"%s\"", room.Id, len(room.Messages)+1, msg.Content)
-
 		room.Messages = append(room.Messages, msg)
 
 		regularMessageBuffer := bytes.Buffer{}

@@ -74,7 +74,7 @@ func MessageComponent(msg Message, isOwnMessage bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var5 = []any{"p-2 border-0 rounded-md break-words text-end text-sm", templ.KV("bg-sky-600", isOwnMessage), templ.KV("bg-slate-200", !isOwnMessage)}
+		var templ_7745c5c3_Var5 = []any{"p-2 border-0 rounded-md break-words text-sm whitespace-pre-line", templ.KV("bg-sky-600", isOwnMessage), templ.KV("bg-slate-200", !isOwnMessage)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -92,9 +92,9 @@ func MessageComponent(msg Message, isOwnMessage bool) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(msg.Content)
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(templ.EscapeString(msg.Content))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/Message.templ`, Line: 10, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/Message.templ`, Line: 10, Col: 38}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
