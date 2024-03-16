@@ -10,7 +10,7 @@ TODO:
 - [ ] Add loading transition while waiting for websocket to connect
 - [ ] Add pages for rejected requests (e.g.: room is full)
 - [ ] add online user count
-- [ ] close room if left empty for long enough
+- [x] close room if left empty for long enough
 - [ ] handle new line characters in messages
 - [ ] probably more
 
