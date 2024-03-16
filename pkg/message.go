@@ -1,6 +1,8 @@
 package goob
 
-import "time"
+import (
+	"time"
+)
 
 type Message struct {
 	User    *User

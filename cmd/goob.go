@@ -8,23 +8,18 @@ import (
 	"strconv"
 
 	"github.com/a-h/templ"
-
-	"hugobde.dev/goob/pkg"
+	goob "hugobde.dev/goob/pkg"
 )
 
 func main() {
-	var helpFlag = flag.Bool("help", false, "print help message")
-	var certFileFlag = flag.String("cert", "", "TLS domain cert file")
-	var keyFileFlag = flag.String("key", "", "TLS private key file")
-	var portFlag = flag.Uint("port", 42069, "port to listen on")
 	flag.Parse()
 
-	if *helpFlag {
+	if goob.Help() {
 		flag.Usage()
 		return
 	}
 
-	if (*certFileFlag != "") != (*keyFileFlag != "") {
+	if (goob.CertFile() != "") != (goob.KeyFile() != "") {
 		flag.PrintDefaults()
 		return
 	}
@@ -44,16 +39,16 @@ func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	/* If a domainCertFlag flag is configured then enable TLS */
-	if *certFileFlag != "" {
-		log.Printf("Listening on %d with TLS enabled ...", *portFlag)
-		log.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", *portFlag),
-			*certFileFlag,
-			*keyFileFlag,
+	/* If a domainCertFlag flag is goob.red then enable TLS */
+	if goob.CertFile() != "" {
+		log.Printf("Listening on %d with TLS enabled ...", goob.Port())
+		log.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", goob.Port()),
+			goob.CertFile(),
+			goob.KeyFile(),
 			nil))
 	} else {
-		log.Printf("Listening on %d with TLS disabled ...", *portFlag)
-		log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *portFlag), nil))
+		log.Printf("Listening on %d with TLS disabled ...", goob.Port())
+		log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", goob.Port()), nil))
 	}
 }
 

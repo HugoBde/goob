@@ -1,7 +1,5 @@
 package goob
 
-import ()
-
 templ MessageComponent(msg Message, isOwnMessage bool) {
 	<div hx-swap-oob="beforeend:#chat-room">
 		<div class={ "flex flex-col gap-1", templ.KV("items-end", isOwnMessage) }>

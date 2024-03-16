@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"nhooyr.io/websocket"
 )
@@ -15,6 +16,7 @@ type Room struct {
 	Messages    []Message
 	Users       []*User
 	RecvChannel chan Message
+	expiryTimer *time.Timer
 }
 
 var roomList = make(map[uint64]*Room)
@@ -76,6 +78,8 @@ var animalList = [...]string{
 	"Zebra",
 }
 
+var roomExpiryTimerDuration = RoomExpiryTimeTimerDuration() * time.Second
+
 func GetRoom(id uint64) *Room {
 	room, ok := roomList[id]
 
@@ -98,6 +102,7 @@ func NewRoom() *Room {
 		Messages:    make([]Message, 0, 10),
 		Users:       make([]*User, 0, 10),
 		RecvChannel: make(chan Message),
+		expiryTimer: nil,
 	}
 
 	roomList[id] = newRoom
@@ -144,6 +149,15 @@ func (room *Room) Run() {
 
 func (room *Room) AcceptConn(w http.ResponseWriter, r *http.Request) {
 
+	// Stop the autoCloseTimer if it's ticking
+	if room.expiryTimer != nil {
+		// If we failed to stop it, the room is closed, reject connection
+		if !room.expiryTimer.Stop() {
+			return
+		}
+		log.Printf("Room %d | Deletion cancelled", room.Id)
+	}
+
 	conn, err := websocket.Accept(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -171,6 +185,14 @@ func (room *Room) RemoveUser(user *User) {
 
 	room.sendUserDisconnectNotification(user)
 	log.Printf("Room %d | Disconnected user: [%v] User count: %d ", room.Id, user, len(room.Users))
+
+	if len(room.Users) == 0 {
+		log.Printf("Room %d | Room empty, expiring in %v", room.Id, roomExpiryTimerDuration)
+		room.expiryTimer = time.AfterFunc(roomExpiryTimerDuration, func() {
+			log.Printf("Room %d | Deleted", room.Id)
+			roomList[room.Id] = nil
+		})
+	}
 }
 
 func (room *Room) sendUserJoinNotification(user *User) {
