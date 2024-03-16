@@ -6,6 +6,7 @@ TODO:
 - [x] avoid overwriting a room if randomly generated id is already in use
 - [x] differentiate user messages from peer messages
 - [x] add user pseudonym
+- [x] add user join/disconnect notifications
 - [ ] Add loading transition while waiting for websocket to connect
 - [ ] Add pages for rejected requests (e.g.: room is full)
 - [ ] add online user count
