@@ -20,6 +20,7 @@ type User struct {
 	Name            UserName
 	ctx             context.Context
 	conn            *websocket.Conn
+	room            *Room
 	wsSendChannel   chan []byte
 	wsRecvChannel   chan []byte
 	RoomRecvChannel chan []byte
@@ -31,6 +32,7 @@ func NewUser(ctx context.Context, name UserName, room *Room, conn *websocket.Con
 		Name:            name,
 		ctx:             ctx,
 		conn:            conn,
+		room:            room,
 		wsSendChannel:   make(chan []byte),
 		wsRecvChannel:   make(chan []byte),
 		RoomRecvChannel: make(chan []byte),
@@ -64,14 +66,19 @@ func (user *User) websocketWriter() {
 }
 
 func (user *User) Runner() {
-	defer close(user.wsSendChannel)
+
+	// Closing this connection will end the websocketReader goroutine
 	defer user.conn.CloseNow()
 
 	go user.websocketReader()
 	go user.websocketWriter()
 
+	// Defer closing the websocketWriter goroutine
+	defer close(user.wsSendChannel)
+
 	for {
 		select {
+		// We receive data from the websocket connection, parse it and forward the message to the room
 		case data, ok := <-user.wsRecvChannel:
 			if !ok {
 				return
@@ -90,6 +97,7 @@ func (user *User) Runner() {
 				user.roomSendChannel <- msg
 			}
 
+			// We receive data from the room, hopefully some html, forward it to the websocket connection
 		case data, ok := <-user.RoomRecvChannel:
 			if !ok {
 				return
