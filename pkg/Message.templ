@@ -7,8 +7,8 @@ templ MessageComponent(msg Message, isOwnMessage bool) {
 				{ msg.User.String() }
 			</p>
 			<div class={ "flex items-center gap-3 ", templ.KV("flex-row-reverse", isOwnMessage) }>
-				<div class={ "p-2 border-0 rounded-md break-words text-end text-sm", templ.KV("bg-sky-600", isOwnMessage) , templ.KV("bg-slate-200", !isOwnMessage) }>
-					{ msg.Content }
+				<div class={ "p-2 border-0 rounded-md break-words text-sm whitespace-pre-line", templ.KV("bg-sky-600", isOwnMessage) , templ.KV("bg-slate-200", !isOwnMessage) }>
+					{ templ.EscapeString(msg.Content) }
 				</div>
 				<div class="opacity-50 flex-shrink-0 text-xs">
 					{ msg.Time.Format("15:04") }
