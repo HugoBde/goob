@@ -143,6 +143,7 @@ func (room *Room) Run() {
 }
 
 func (room *Room) AcceptConn(w http.ResponseWriter, r *http.Request) {
+
 	conn, err := websocket.Accept(w, r, nil)
 	if err != nil {
 		log.Println(err)
@@ -152,10 +153,10 @@ func (room *Room) AcceptConn(w http.ResponseWriter, r *http.Request) {
 	user := NewUser(r.Context(), room.generateUniqueName(), room, conn)
 
 	room.Users = append(room.Users, user)
+
 	log.Printf("Room %d | New user: [%v] User count: %d ", room.Id, user, len(room.Users))
-
+	go room.sendUserJoinNotification(user)
 	user.Runner()
-
 	room.RemoveUser(user)
 }
 
@@ -168,7 +169,38 @@ func (room *Room) RemoveUser(user *User) {
 		}
 	}
 
+	room.sendUserDisconnectNotification(user)
 	log.Printf("Room %d | Disconnected user: [%v] User count: %d ", room.Id, user, len(room.Users))
+}
+
+func (room *Room) sendUserJoinNotification(user *User) {
+
+	userJoinNotificationBuffer := bytes.Buffer{}
+	err := UserJoinComponent(user).Render(context.Background(), &userJoinNotificationBuffer)
+
+	if err != nil {
+		log.Printf("Room %d | Failed to render user join notification User [%v]", room.Id, user)
+		return
+	}
+
+	for _, user := range room.Users {
+		user.RoomRecvChannel <- userJoinNotificationBuffer.Bytes()
+	}
+}
+
+func (room *Room) sendUserDisconnectNotification(user *User) {
+
+	userDisconnectNotificationBuffer := bytes.Buffer{}
+	err := UserDisconnectComponent(user).Render(context.Background(), &userDisconnectNotificationBuffer)
+
+	if err != nil {
+		log.Printf("Failed to render user disconnect notification")
+		return
+	}
+
+	for _, user := range room.Users {
+		user.RoomRecvChannel <- userDisconnectNotificationBuffer.Bytes()
+	}
 }
 
 func (room *Room) generateUniqueName() UserName {
