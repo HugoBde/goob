@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,7 +13,22 @@ import (
 )
 
 func main() {
-	fmt.Println("Starting...")
+	var helpFlag = flag.Bool("help", false, "print help message")
+	var certFileFlag = flag.String("cert", "", "TLS domain cert file")
+	var keyFileFlag = flag.String("key", "", "TLS private key file")
+	var portFlag = flag.Uint("port", 42069, "port to listen on")
+	flag.Parse()
+
+	if *helpFlag {
+		flag.Usage()
+		return
+	}
+
+	if (*certFileFlag != "") != (*keyFileFlag != "") {
+		flag.PrintDefaults()
+		return
+	}
+
 	fs := http.FileServer(http.Dir("./public"))
 
 	// Static files serving
@@ -28,7 +44,17 @@ func main() {
 
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	/* If a domainCertFlag flag is configured then enable TLS */
+	if *certFileFlag != "" {
+		log.Printf("Listening on %d with TLS enabled ...", *portFlag)
+		log.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", *portFlag),
+			*certFileFlag,
+			*keyFileFlag,
+			nil))
+	} else {
+		log.Printf("Listening on %d with TLS disabled ...", *portFlag)
+		log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *portFlag), nil))
+	}
 }
 
 func roomHandler(w http.ResponseWriter, r *http.Request) {
