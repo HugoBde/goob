@@ -3,7 +3,7 @@ FROM golang:1.22 as build-stage
 
 # install go templ
 RUN go env -w GOBIN=/usr/bin
-RUN go install github.com/a-h/templ/cmd/templ@0.2.680
+RUN go install github.com/a-h/templ/cmd/templ@v0.2.680
 
 # install tailwind
 WORKDIR /usr/bin
