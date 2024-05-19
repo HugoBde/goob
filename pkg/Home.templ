@@ -9,12 +9,12 @@ templ HomeTemplate() {
 		<body class="h-full flex flex-col ">
 			@TopBarComponent()
 			<div class="flex justify-around items-center flex-grow">
-				<a href="/newroom" class="border-2 flex justify-center items-center rounded-md max-h-[33%] h-[300px] w-[300px] border-black shadow-lg hover:bg-black hover:text-white text-3xl hover:shadow-xl hover:scale-105 transition-all ">
+				<a href="/newroom" class="border-2 flex p-5 justify-center items-center rounded-md max-h-[33%] min-h-fit h-[300px] w-[300px] border-black shadow-lg hover:bg-black hover:text-white text-3xl hover:shadow-xl hover:scale-105 transition-all ">
 					<button>
 						Create new room
 					</button>
 				</a>
-				<form action="/room" class="border-2 flex flex-col p-5 gap-3 justify-around items-center rounded-md max-h-[33%] h-[300px] w-[300px] border-black shadow-lg  ">
+				<form action="/room" class="border-2 flex flex-col p-5 gap-3 justify-around items-center rounded-md max-h-[33%] min-h-fit h-[300px] w-[300px] border-black shadow-lg  mb-0">
 					<p class="flex-grow flex items-center text-3xl">
 						Join room
 					</p>
