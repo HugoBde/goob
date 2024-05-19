@@ -15,6 +15,7 @@ COPY cmd cmd
 COPY pkg pkg
 RUN CGO_ENABLED=0 go build ./cmd/goob.go
 
+COPY tailwind.config.js ./
 COPY public/input.css public/input.css
 RUN tailwindcss -i public/input.css -o public/index.css
 
