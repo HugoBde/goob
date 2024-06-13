@@ -71,7 +71,7 @@ func RoomTemplate(room *Room) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><form class=\"bg-black flex justify-between items-stretch gap-3 p-3 m-0\" ws-send><textarea required class=\"p-1 resize-none rounded-md focus-visible:outline-none flex-grow\" rows=\"2\" placeholder=\"message anonymously...\" name=\"message\" type=\"textarea\"></textarea> <button class=\"group border-2 border-white hover:border-black text-white hover:text-black bg-black hover:bg-white transition-colors p-2 rounded-md\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><form class=\"bg-black flex justify-between items-stretch gap-3 p-3 m-0\" autocomplete=\"off\" ws-send><input required class=\"p-1 resize-none rounded-md focus-visible:outline-none flex-grow\" placeholder=\"message anonymously...\" name=\"message\" type=\"text\"> <button class=\"group border-2 border-white hover:border-black text-white hover:text-black bg-black hover:bg-white transition-colors p-2 rounded-md\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

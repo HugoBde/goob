@@ -22,8 +22,8 @@ templ RoomTemplate(room *Room) {
 							@MessageComponent(msg, false)
 						}
 					</div>
-					<form class="bg-black flex justify-between items-stretch gap-3 p-3 m-0" ws-send>
-						<textarea required class="p-1 resize-none rounded-md focus-visible:outline-none flex-grow" rows="2" placeholder="message anonymously..." name="message" type="textarea"></textarea>
+					<form class="bg-black flex justify-between items-stretch gap-3 p-3 m-0" autocomplete="off" ws-send>
+						<input required class="p-1 resize-none rounded-md focus-visible:outline-none flex-grow" placeholder="message anonymously..." name="message" type="text"/>
 						<button class="group border-2 border-white hover:border-black text-white hover:text-black bg-black hover:bg-white transition-colors p-2 rounded-md">
 							@SendIconComponent("fill-white group-hover:fill-black")
 						</button>
