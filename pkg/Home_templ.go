@@ -23,7 +23,7 @@ func HomeTemplate() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html class=\"h-full\"><head><title>Goob</title><link href=\"public/index.css\" rel=\"stylesheet\"></head><body class=\"h-full flex flex-col \">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html class=\"h-full\"><head><title>Goob</title><link href=\"public/index.css\" rel=\"stylesheet\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"></head><body class=\"h-full flex flex-col \">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -31,7 +31,7 @@ func HomeTemplate() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-around items-center flex-grow\"><a href=\"/newroom\" class=\"border-2 flex p-5 justify-center items-center rounded-md max-h-[33%] min-h-fit h-[300px] w-[300px] border-black shadow-lg hover:bg-black hover:text-white text-3xl hover:shadow-xl hover:scale-105 transition-all \"><button>Create new room</button></a><form action=\"/room\" class=\"border-2 flex flex-col p-5 gap-3 justify-around items-center rounded-md max-h-[33%] min-h-fit h-[300px] w-[300px] border-black shadow-lg  mb-0\"><p class=\"flex-grow flex items-center text-3xl\">Join room</p><input required type=\"text\" name=\"id\" class=\"border-2 rounded-sm w-5/6 h-6 border-gray-400 text-center\"> <input type=\"submit\" value=\"Go\" class=\"border-2 hover:bg-black hover:text-white flex-grow rounded-md border-black w-5/6 shadow-lg hover:shadow-xl hover:scale-105 transition-all \"></form></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-wrap flex-col md:flex-row flex-grow gap-4 justify-around items-center \"><a href=\"/newroom\" class=\"border-2 flex p-5 justify-center items-center rounded-md max-h-[33%] min-h-fit h-[300px] w-[300px] border-black shadow-lg hover:bg-black hover:text-white text-3xl hover:shadow-xl hover:scale-105 transition-all \"><button>Create new room</button></a><form action=\"/room\" class=\"border-2 flex flex-col p-5 gap-3 justify-around items-center rounded-md max-h-[33%] min-h-fit h-[300px] w-[300px] border-black shadow-lg  mb-0\"><p class=\"flex-grow flex items-center text-3xl\">Join room</p><input required type=\"number\" name=\"id\" class=\"border-2 rounded-sm w-5/6 h-6 border-gray-400 text-center\" placeholder=\"000000\"> <input type=\"submit\" value=\"Go\" class=\"border-2 hover:bg-black hover:text-white flex-grow rounded-md border-black w-5/6 shadow-lg hover:shadow-xl hover:scale-105 transition-all \"></form></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

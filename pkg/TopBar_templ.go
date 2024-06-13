@@ -23,7 +23,7 @@ func TopBarComponent() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex justify-center bg-black text-white\"><a href=\"/\" class=\"p-3\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Teko:wght@300..700&amp;display=swap\" rel=\"stylesheet\"><h1 class=\"goob-logo \">Goob</h1></a></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-col items-center bg-black text-white w-full\"><a href=\"/\"><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Teko:wght@300..700&amp;display=swap\" rel=\"stylesheet\"><h1 class=\"goob-logo leading-none\">Goob</h1></a><p class=\"relative border-t-white border-t-2 font-bold\" style=\"top: -5px;\">anonymous - ephemeral</p></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

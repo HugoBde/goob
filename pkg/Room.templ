@@ -11,12 +11,13 @@ templ RoomTemplate(room *Room) {
 			<link href="public/index.css" rel="stylesheet"/>
 			<script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC" crossorigin="anonymous"></script>
 			<script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		</head>
 		<body class="h-full flex flex-col">
 			@TopBarComponent()
 			<div class="flex flex-col items-center flex-grow gap-3 p-5">
 				<p class="text-3xl ">Room { fmt.Sprint(room.Id) } </p>
-				<div class="flex flex-col border-2 border-black rounded-2xl overflow-hidden flex-grow w-[600px] max-w-[50%]" hx-ext="ws" ws-connect={ fmt.Sprintf("/chat/%d", room.Id) } hx-on:submit="document.querySelector('form').reset()">
+				<div class="flex flex-col border-2 border-black rounded-2xl overflow-hidden flex-grow w-full md:w-[50%] " hx-ext="ws" ws-connect={ fmt.Sprintf("/chat/%d", room.Id) } hx-on:submit="document.querySelector('form').reset()">
 					<div id="chat-room" class="flex-grow flex flex-col gap-1 justify-end overflow-y-scroll p-3">
 						for _, msg := range room.Messages {
 							@MessageComponent(msg, false)

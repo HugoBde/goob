@@ -1,14 +1,17 @@
 package goob
 
 templ TopBarComponent() {
-	<div class="flex justify-center bg-black text-white">
-		<a href="/" class="p-3">
+	<div class="flex flex-col items-center bg-black text-white w-full">
+		<a href="/">
 			<link rel="preconnect" href="https://fonts.googleapis.com"/>
 			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 			<link href="https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap" rel="stylesheet"/>
-			<h1 class="goob-logo ">
+			<h1 class="goob-logo leading-none">
 				Goob
 			</h1>
 		</a>
+		<p class="relative border-t-white border-t-2 font-bold" style="top: -5px;">
+			anonymous - ephemeral
+		</p>
 	</div>
 }
