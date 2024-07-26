@@ -1,5 +1,5 @@
 # build image
-FROM golang:1.22 as build-stage
+FROM golang:1.22 AS build-stage
 
 # install go templ
 RUN go env -w GOBIN=/usr/bin
@@ -32,7 +32,7 @@ COPY public/input.css public/input.css
 RUN tailwindcss -i public/input.css -o public/index.css
 
 # deploy image
-FROM alpine:3.14 as deploy-stage
+FROM alpine:3.14 AS deploy-stage
 WORKDIR /app
 
 COPY --from=build-stage /app/goob goob
